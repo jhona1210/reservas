@@ -169,8 +169,14 @@ export default function BookingForm({ initialNow }: { initialNow: ZonedNow }) {
           setForm((f) => ({ ...f, booking_time: null }));
           void loadBookedSlots(payload.booking_date);
         }
-      } catch {
-        setServerError('No pudimos conectar con el servidor. Revisa tu conexión e intenta de nuevo.');
+      } catch (err: unknown) {
+        console.error('[BookingForm] Error al enviar la reserva:', err);
+        const detail = err instanceof Error ? err.message : '';
+        setServerError(
+          detail
+            ? `Error de conexión: ${detail}`
+            : 'No pudimos conectar con el servidor. Revisa tu conexión o la terminal de Next.js.',
+        );
       }
     });
   };

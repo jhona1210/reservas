@@ -28,64 +28,73 @@ export type CreateBookingResult =
  *    incluso con peticiones simultáneas.
  */
 export async function createBooking(input: BookingInput): Promise<CreateBookingResult> {
-  const parsed = bookingSchema.safeParse(input);
-  if (!parsed.success) {
-    return {
-      success: false,
-      message: 'Revisa los campos marcados antes de continuar.',
-      fieldErrors: getFieldErrors(parsed.error),
-    };
-  }
-
-  const data = parsed.data;
-  const now = getNowInTimeZone();
-
-  if (
-    !isDateBookable(data.booking_date, now) ||
-    !isSlotInFuture(data.booking_date, data.booking_time, now)
-  ) {
-    return {
-      success: false,
-      message: 'Ese horario ya no está disponible. Por favor elige otro.',
-      fieldErrors: { booking_time: 'Este horario ya pasó o no está disponible.' },
-      slotTaken: true,
-    };
-  }
-
-  // Generamos el id aquí para no necesitar permisos de SELECT (RLS) tras el insert.
-  const id = crypto.randomUUID();
-
-  const { error } = await getSupabase()
-    .from('bookings')
-    .insert({
-      id,
-      guest_name: data.guest_name,
-      guest_email: data.guest_email,
-      booking_date: data.booking_date,
-      booking_time: data.booking_time,
-      meeting_type: data.meeting_type,
-      notes: data.notes || null,
-    });
-
-  if (error) {
-    // 23505 = unique_violation → alguien reservó ese bloque primero.
-    if (error.code === '23505') {
+  try {
+    const parsed = bookingSchema.safeParse(input);
+    if (!parsed.success) {
       return {
         success: false,
-        message: '¡Uy! Alguien acaba de reservar ese horario. Elige otro, por favor.',
-        fieldErrors: { booking_time: 'Este horario acaba de ser reservado.' },
+        message: 'Revisa los campos marcados antes de continuar.',
+        fieldErrors: getFieldErrors(parsed.error),
+      };
+    }
+
+    const data = parsed.data;
+    const now = getNowInTimeZone();
+
+    if (
+      !isDateBookable(data.booking_date, now) ||
+      !isSlotInFuture(data.booking_date, data.booking_time, now)
+    ) {
+      return {
+        success: false,
+        message: 'Ese horario ya no está disponible. Por favor elige otro.',
+        fieldErrors: { booking_time: 'Este horario ya pasó o no está disponible.' },
         slotTaken: true,
       };
     }
 
-    console.error('[createBooking] Error de Supabase:', error);
+    // Generamos el id aquí para no necesitar permisos de SELECT (RLS) tras el insert.
+    const id = crypto.randomUUID();
+
+    const { error } = await getSupabase()
+      .from('bookings')
+      .insert({
+        id,
+        guest_name: data.guest_name,
+        guest_email: data.guest_email,
+        booking_date: data.booking_date,
+        booking_time: data.booking_time,
+        meeting_type: data.meeting_type,
+        notes: data.notes || null,
+      });
+
+    if (error) {
+      // 23505 = unique_violation → alguien reservó ese bloque primero.
+      if (error.code === '23505') {
+        return {
+          success: false,
+          message: '¡Uy! Alguien acaba de reservar ese horario. Elige otro, por favor.',
+          fieldErrors: { booking_time: 'Este horario acaba de ser reservado.' },
+          slotTaken: true,
+        };
+      }
+
+      console.error('[createBooking] Error de Supabase:', error);
+      return {
+        success: false,
+        message: `Error al guardar en Supabase: ${error.message || 'Error desconocido'}`,
+      };
+    }
+
+    return { success: true, booking: { ...data, id } };
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error('[createBooking] Error no controlado en la Server Action:', message);
     return {
       success: false,
-      message: 'Ocurrió un error inesperado al guardar la reserva. Intenta de nuevo en un momento.',
+      message: `Error en el servidor: ${message}`,
     };
   }
-
-  return { success: true, booking: { ...data, id } };
 }
 
 /**

@@ -63,3 +63,4 @@ supabase/schema.sql         # Tabla, RLS y función RPC
 - No hay política de `SELECT`: nadie puede leer nombres, correos ni notas con la anon key.
 - Los horarios ocupados se consultan con la función `get_booked_slots(date)`, que solo devuelve horas.
 - Salomé ve las reservas desde el panel de Supabase (Table Editor).
+
