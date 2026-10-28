@@ -17,7 +17,7 @@ export const AVAILABLE_WEEKDAYS: readonly number[] = [1, 2, 3, 4, 5, 6];
 export const TIME_SLOTS = ['10:00', '11:30', '15:00', '16:30'] as const;
 export type TimeSlot = (typeof TIME_SLOTS)[number];
 
-export const MEETING_TYPE_IDS = ['coffee', 'focus', 'express', 'gossip'] as const;
+export const MEETING_TYPE_IDS = ['coffee', 'focus', 'express', 'gossip', 'harry', 'president'] as const;
 export type MeetingTypeId = (typeof MEETING_TYPE_IDS)[number];
 
 export interface MeetingType {
@@ -61,6 +61,22 @@ export const MEETING_TYPES: readonly MeetingType[] = [
     emoji: '🗣️',
     description: 'Todo lo que ha pasado desde la última vez. Sin filtro.',
     durationMinutes: 60,
+    accent: 'bg-amber-100/80',
+  },
+  {
+    id: 'harry',
+    label: 'Hablar sobre Harry Styles',
+    emoji: '🍉',
+    description: '¿El mejor artista de todos los tiempos? No sé, discutámoslo.',
+    durationMinutes: 45,
+    accent: 'bg-sky-100/80',
+  },
+  {
+    id: 'president',
+    label: 'Hablemos sobre el presidente',
+    emoji: '🏛️',
+    description: 'Funemos al presidente.',
+    durationMinutes: 45,
     accent: 'bg-amber-100/80',
   },
 ];

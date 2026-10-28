@@ -37,13 +37,22 @@ export default function HomePage() {
             <Heart className="size-4 fill-amber-400 text-amber-500 drop-shadow-xs" aria-hidden />
           </span>
         </a>
-        <span className="hidden items-center gap-2 rounded-full border border-stone-200 bg-white/70 px-3 py-1.5 text-xs font-medium text-stone-600 backdrop-blur sm:inline-flex">
-          <span className="relative flex size-2">
-            <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+        <div className="flex items-center gap-3">
+          <a
+            href="/reservas"
+            className="inline-flex items-center gap-1.5 rounded-full border border-stone-200 bg-white/80 px-3.5 py-1.5 text-xs font-semibold text-stone-700 shadow-xs backdrop-blur transition hover:border-sky-300 hover:bg-sky-50/70 hover:text-sky-900"
+          >
+            <CalendarCheck className="size-3.5 text-sky-600" />
+            <span>Ver reservas</span>
+          </a>
+          <span className="hidden items-center gap-2 rounded-full border border-stone-200 bg-white/70 px-3 py-1.5 text-xs font-medium text-stone-600 backdrop-blur sm:inline-flex">
+            <span className="relative flex size-2">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+            </span>
+            Agenda abierta
           </span>
-          Agenda abierta
-        </span>
+        </div>
       </header>
 
       <main className="mx-auto max-w-6xl px-5 pb-20 sm:px-8">

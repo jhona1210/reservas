@@ -67,10 +67,9 @@ begin
       check (char_length(guest_email) <= 254 and guest_email ~* '^[^@\s]+@[^@\s]+\.[^@\s]+$') not valid;
   end if;
 
-  if not exists (select 1 from pg_constraint where conname = 'bookings_meeting_type_chk') then
-    alter table public.bookings add constraint bookings_meeting_type_chk
-      check (meeting_type in ('coffee', 'focus', 'express', 'gossip')) not valid;
-  end if;
+  alter table public.bookings drop constraint if exists bookings_meeting_type_chk;
+  alter table public.bookings add constraint bookings_meeting_type_chk
+    check (meeting_type in ('coffee', 'focus', 'express', 'gossip', 'harry', 'president')) not valid;
 
   if not exists (select 1 from pg_constraint where conname = 'bookings_time_slot_chk') then
     alter table public.bookings add constraint bookings_time_slot_chk
@@ -102,13 +101,11 @@ drop policy if exists "Permitir inserciones publicas anonimas" on public.booking
 drop policy if exists "Permitir lectura publica de turnos ocupados" on public.bookings;
 drop policy if exists "Public can create bookings" on public.bookings;
 
--- Permisos a nivel de tabla: anon solo puede insertar (nada de select/update/delete).
+-- Permisos a nivel de tabla: anon y authenticated pueden insertar y consultar reservas.
 revoke all on table public.bookings from anon, authenticated;
-grant insert on table public.bookings to anon, authenticated;
+grant insert, select on table public.bookings to anon, authenticated;
 
--- Política: cualquiera puede crear una reserva confirmada, solo para hoy o
--- los próximos 60 días (hora de Colombia). La validación fina (hora futura,
--- formato) la hace la Server Action.
+-- Política de inserción: cualquiera puede crear una reserva confirmada (próximos 60 días).
 create policy "Public can create bookings"
   on public.bookings
   for insert
@@ -119,8 +116,14 @@ create policy "Public can create bookings"
     and booking_date <= (now() at time zone 'America/Bogota')::date + 60
   );
 
--- No hay política de SELECT a propósito: con la anon key nadie puede leer
--- datos personales. Salomé ve todo desde el Dashboard (Table Editor).
+-- Política de lectura: permite consultar las reservas para el panel de reservas.
+drop policy if exists "Public can view bookings" on public.bookings;
+drop policy if exists "Permitir ver reservas" on public.bookings;
+create policy "Public can view bookings"
+  on public.bookings
+  for select
+  to anon, authenticated
+  using (true);
 
 -- 5) Horarios ocupados (sin exponer datos personales) ------------------
 --    SECURITY DEFINER: corre con permisos del dueño, pero SOLO devuelve
@@ -143,6 +146,32 @@ $$;
 
 revoke all on function public.get_booked_slots(date) from public;
 grant execute on function public.get_booked_slots(date) to anon, authenticated;
+
+-- Función RPC para consultar todas las reservas (garantiza acceso como SECURITY DEFINER)
+create or replace function public.get_all_bookings()
+returns table (
+  id uuid,
+  created_at timestamptz,
+  guest_name text,
+  guest_email text,
+  booking_date date,
+  booking_time time,
+  meeting_type text,
+  notes text,
+  status text
+)
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select id, created_at, guest_name, guest_email, booking_date, booking_time, meeting_type, notes, status
+  from public.bookings
+  order by booking_date desc, booking_time desc;
+$$;
+
+revoke all on function public.get_all_bookings() from public;
+grant execute on function public.get_all_bookings() to anon, authenticated;
 
 -- Refresca la caché de esquema de la API (PostgREST) para que vea los cambios.
 notify pgrst, 'reload schema';
