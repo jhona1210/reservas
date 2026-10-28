@@ -24,9 +24,9 @@ export default function MeetingTypeSelector({ value, onChange, invalid }: Meetin
             onClick={() => onChange(type.id)}
             className={[
               'group relative flex items-start gap-4 rounded-2xl border bg-white p-4 text-left transition-all duration-200',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2',
               selected
-                ? 'border-violet-500 shadow-[0_0_0_1px_rgb(139_92_246),0_8px_24px_-8px_rgb(139_92_246/0.35)]'
+                ? 'border-sky-500 shadow-[0_0_0_1px_rgb(14_165_233),0_8px_24px_-8px_rgb(14_165_233/0.3)] bg-sky-50/20'
                 : invalid
                   ? 'border-rose-300 hover:border-rose-400'
                   : 'border-stone-200 hover:-translate-y-0.5 hover:border-stone-300 hover:shadow-md',
@@ -49,7 +49,7 @@ export default function MeetingTypeSelector({ value, onChange, invalid }: Meetin
             <span
               className={[
                 'absolute top-3 right-3 grid size-5 place-items-center rounded-full transition-all duration-200',
-                selected ? 'scale-100 bg-violet-600 text-white' : 'scale-75 border border-stone-300 bg-white text-transparent',
+                selected ? 'scale-100 bg-sky-500 text-white' : 'scale-75 border border-stone-300 bg-white text-transparent',
               ].join(' ')}
               aria-hidden
             >

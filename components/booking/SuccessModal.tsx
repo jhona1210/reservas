@@ -70,7 +70,7 @@ export default function SuccessModal({ booking, onClose }: SuccessModalProps) {
         aria-labelledby="success-title"
         className="relative w-full max-w-md animate-scale-in overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-2xl"
       >
-        <div className="relative bg-gradient-to-br from-violet-600 via-fuchsia-500 to-amber-400 px-6 pt-8 pb-14 text-center text-white">
+        <div className="relative bg-gradient-to-br from-sky-500 via-sky-400 to-amber-300 px-6 pt-8 pb-14 text-center text-white">
           <button
             type="button"
             onClick={onClose}
@@ -94,7 +94,7 @@ export default function SuccessModal({ booking, onClose }: SuccessModalProps) {
           <dl className="divide-y divide-stone-100 rounded-2xl border border-stone-200 bg-white px-4 shadow-sm">
             {details.map(({ icon: Icon, label, value }) => (
               <div key={label} className="flex items-center gap-3 py-3">
-                <Icon className="size-4 shrink-0 text-violet-600" aria-hidden />
+                <Icon className="size-4 shrink-0 text-sky-600" aria-hidden />
                 <dt className="w-16 shrink-0 text-xs font-medium text-stone-500">{label}</dt>
                 <dd className="min-w-0 flex-1 truncate text-right text-sm font-medium text-stone-900">
                   {value}
@@ -113,7 +113,7 @@ export default function SuccessModal({ booking, onClose }: SuccessModalProps) {
               href={calendarUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-stone-900 px-4 text-sm font-semibold text-white transition hover:bg-stone-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-stone-900 px-4 text-sm font-semibold text-white transition hover:bg-stone-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2"
             >
               <CalendarPlus className="size-4" aria-hidden />
               Añadir a Google Calendar

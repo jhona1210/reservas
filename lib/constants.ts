@@ -61,7 +61,7 @@ export const MEETING_TYPES: readonly MeetingType[] = [
     emoji: '🗣️',
     description: 'Todo lo que ha pasado desde la última vez. Sin filtro.',
     durationMinutes: 60,
-    accent: 'bg-pink-100/80',
+    accent: 'bg-amber-100/80',
   },
 ];
 

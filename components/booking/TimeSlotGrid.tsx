@@ -60,14 +60,14 @@ export default function TimeSlotGrid({
             onClick={() => onChange(slot)}
             className={[
               'flex h-12 items-center justify-between rounded-xl border px-4 text-sm font-medium transition-all duration-150',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-1',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-1',
               selected
-                ? 'border-violet-600 bg-violet-600 text-white shadow-[0_8px_20px_-8px_rgb(124_58_237/0.6)]'
+                ? 'border-sky-500 bg-sky-500 text-white shadow-[0_8px_20px_-8px_rgb(14_165_233/0.45)]'
                 : disabled
                   ? 'cursor-not-allowed border-stone-100 bg-stone-50 text-stone-300'
                   : invalid
-                    ? 'border-rose-300 bg-white text-stone-800 hover:border-violet-400'
-                    : 'border-stone-200 bg-white text-stone-800 hover:border-violet-400 hover:text-violet-700',
+                    ? 'border-rose-300 bg-white text-stone-800 hover:border-sky-400'
+                    : 'border-stone-200 bg-white text-stone-800 hover:border-sky-400 hover:text-sky-700',
             ].join(' ')}
           >
             <span className={disabled ? 'line-through' : ''}>{formatTime12h(slot)}</span>

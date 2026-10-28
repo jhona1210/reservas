@@ -207,7 +207,7 @@ export default function BookingForm({ initialNow }: { initialNow: ZonedNow }) {
         {/* Barra de progreso */}
         <div className="h-1 bg-stone-100">
           <div
-            className="h-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-amber-400 transition-all duration-500 ease-out"
+            className="h-full bg-gradient-to-r from-sky-400 via-sky-300 to-amber-300 transition-all duration-500 ease-out"
             style={{ width: `${(completedSteps / 3) * 100}%` }}
           />
         </div>
@@ -371,7 +371,7 @@ export default function BookingForm({ initialNow }: { initialNow: ZonedNow }) {
               <button
                 type="submit"
                 disabled={isPending}
-                className="group mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-stone-900 px-5 text-sm font-semibold text-white shadow-[0_8px_20px_-8px_rgb(28_25_23/0.6)] transition-all hover:bg-stone-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 active:scale-[0.99] disabled:cursor-wait disabled:opacity-70"
+                className="group mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-stone-900 px-5 text-sm font-semibold text-white shadow-[0_8px_20px_-8px_rgb(28_25_23/0.6)] transition-all hover:bg-stone-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2 active:scale-[0.99] disabled:cursor-wait disabled:opacity-70"
               >
                 {isPending ? (
                   <>
@@ -409,7 +409,7 @@ function inputClass(invalid: boolean, extra = '') {
     'focus:outline-none focus:ring-4',
     invalid
       ? 'border-rose-300 focus:border-rose-400 focus:ring-rose-100'
-      : 'border-stone-200 hover:border-stone-300 focus:border-violet-400 focus:ring-violet-100',
+      : 'border-stone-200 hover:border-stone-300 focus:border-sky-400 focus:ring-sky-100',
     extra,
   ].join(' ');
 }
@@ -431,7 +431,7 @@ function StepHeader({
     <div className="mb-4 flex items-start gap-3">
       <span
         className={`grid size-7 shrink-0 place-items-center rounded-full text-xs font-semibold transition-colors duration-300 ${
-          done ? 'bg-violet-600 text-white' : 'border border-stone-300 bg-white text-stone-500'
+          done ? 'bg-sky-500 text-white' : 'border border-stone-300 bg-white text-stone-500'
         }`}
         aria-hidden
       >
@@ -516,7 +516,7 @@ function SummaryRow({
 }) {
   return (
     <li className="flex items-center gap-2.5">
-      <Icon className={`size-4 shrink-0 ${value ? 'text-violet-600' : 'text-stone-300'}`} />
+      <Icon className={`size-4 shrink-0 ${value ? 'text-sky-600' : 'text-stone-300'}`} />
       <span className={value ? 'font-medium text-stone-800' : 'text-stone-400'}>{value ?? placeholder}</span>
     </li>
   );

@@ -2,7 +2,6 @@
 
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
 
   --animate-fade-up: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-scale-in: scale-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -36,7 +35,7 @@
     @apply bg-stone-50 text-stone-900;
   }
   ::selection {
-    @apply bg-violet-200 text-violet-950;
+    @apply bg-sky-200 text-sky-950;
   }
 }
 

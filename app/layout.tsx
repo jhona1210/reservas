@@ -1,18 +1,10 @@
 import type { Metadata, Viewport } from 'next';
-import { Geist, Instrument_Serif } from 'next/font/google';
+import { Geist } from 'next/font/google';
 import './globals.css';
 
 const geist = Geist({
   subsets: ['latin'],
   variable: '--font-geist-sans',
-  display: 'swap',
-});
-
-const instrumentSerif = Instrument_Serif({
-  subsets: ['latin'],
-  weight: '400',
-  style: ['normal', 'italic'],
-  variable: '--font-instrument-serif',
   display: 'swap',
 });
 
@@ -33,7 +25,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${geist.variable} ${instrumentSerif.variable}`}>
+    <html lang="es" className={geist.variable}>
       <body className="min-h-screen font-sans">{children}</body>
     </html>
   );

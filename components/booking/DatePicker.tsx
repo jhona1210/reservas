@@ -99,18 +99,18 @@ export default function DatePicker({ value, onChange, now, invalid }: DatePicker
               aria-label={`${formatDateLong(iso)}${bookable ? '' : ' (no disponible)'}`}
               className={[
                 'relative mx-auto grid aspect-square w-full max-w-10 place-items-center rounded-xl text-sm transition-all duration-150',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
                 selected
                   ? 'bg-stone-900 font-semibold text-white shadow-md'
                   : bookable
-                    ? 'font-medium text-stone-800 hover:bg-violet-50 hover:text-violet-700'
+                    ? 'font-medium text-stone-800 hover:bg-sky-50 hover:text-sky-700'
                     : 'cursor-not-allowed text-stone-300 line-through decoration-stone-200',
               ].join(' ')}
             >
               {day}
               {isToday && (
                 <span
-                  className={`absolute bottom-1 size-1 rounded-full ${selected ? 'bg-white' : 'bg-violet-500'}`}
+                  className={`absolute bottom-1 size-1 rounded-full ${selected ? 'bg-white' : 'bg-amber-400'}`}
                   aria-hidden
                 />
               )}
